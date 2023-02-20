@@ -1,11 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Author :  #Bitwis3 - Hamid Mahmoud -
-
 import argparse
 import json
 
-# Handling CommandLine Arguments
 parser = argparse.ArgumentParser(description=' =: Generate Match and Replace BurpSuite Options :=')
 parser.add_argument('-f', '--file', help='Parameters/Variables to be Matched', dest='file')
 parser.add_argument('-c', '--comment', help='Comment or Bug Class [SSRF, RCE, XSS ..etc]', dest='comment')
@@ -15,16 +12,13 @@ parser.add_argument('-x', '--tmp',action="store_true",default=False, help='repla
 parser.add_argument('-o', '--output', help='Option JSON file', dest='output')
 args = parser.parse_args()
 
-#Get arguments
 params = str(args.file)
 comment = str(args.comment)
 rule = str(args.rule)
 replace = str(args.replace)
 output = str(args.output)
 tmp = args.regrep
-
-#Decorator
-#Match and Repalce JSON Object to be parsed 
+ 
 def matchReplace(func):
     obj = { "proxy":{
             "match_replace_rules":
@@ -36,9 +30,7 @@ def matchReplace(func):
 
 
 
-#Inner Function
 def innerReplace(param, comment, rule, replace):
-    # Get Parameters
     mObj = []
     try:
         param = open(param,'r')
@@ -50,7 +42,7 @@ def innerReplace(param, comment, rule, replace):
                             "is_simple_match":False,
                             "rule_type":""+rule+"",
                             "string_match":"^"+par.strip()+".*$",
-                            "string_replace":""+par.strip()+"="+replace+"&tmp"
+                            "string_replace":""+par.strip()+"="+par.strip()+"."+replace+"&tmp"
                         })
             else:
                 mObj.append({
@@ -59,7 +51,7 @@ def innerReplace(param, comment, rule, replace):
                         "is_simple_match":True,
                         "rule_type":""+rule+"",
                         "string_match":""+par.strip()+"",
-                        "string_replace":""+replace+""
+                        "string_replace":""+par.strip()+"."+replace+""
                     })
     except:
         parser.print_help()
@@ -70,9 +62,5 @@ def innerReplace(param, comment, rule, replace):
 iCall = innerReplace(params,comment,rule,replace)
 mCall = matchReplace(iCall)
 
-# Save Output to a JSON file
 with open(output,'w') as output_file:
     output_file.write(mCall)
-
-#print(mCall)
-
