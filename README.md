@@ -44,6 +44,8 @@
 * You might use the argument -x to use the Regex Match and Replace option
 * ``` ./generate.py -f parameters.txt -c "SSRF Matching" --rule "request_param_name" --replace "attacker.com:port" -x --output opt.json ``` 
 
+![image](https://raw.githubusercontent.com/reewardius/MatchNReplace/master/fix_ssrf.jpg)
+
 ## Contribution, Credits & License
 ### Ways to contribute
 
